@@ -1,0 +1,941 @@
+Claude
+
+
+Index · HTML
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Courses — Client Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --page:#F4F6F9; --surface:#fff; --orange:#F26522; --tint:#FDEAD9; --tint2:#FEF4EC;
+  --blue:#2D7FF9; --slate:#6E7783; --ink:#1F2430; --muted:#6B7280; --divider:#ECEFF3;
+  --border:#DDE2E8; --alert:#E5484D; --ok:#17A47A;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--page);color:var(--ink);font-family:Poppins,"Nunito Sans",system-ui,sans-serif;font-size:14px;line-height:1.4;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:1px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+ 
+/* top bar */
+.topbar{height:56px;background:#fff;display:flex;align-items:center;gap:12px;padding:0 18px;border-bottom:1px solid var(--divider)}
+.logo{display:flex;align-items:center;gap:8px;margin-right:auto}
+.logo-mark{width:30px;height:24px;display:block}
+.logo-txt{font-size:17px;font-weight:700;letter-spacing:-.3px;color:#1B2433}
+.logo-txt em{font-style:normal;font-weight:500;color:#5C6675;margin-left:3px}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;border:1.4px solid var(--orange);
+  border-radius:16px;background:#fff;color:var(--orange);font-size:13px;font-weight:600;cursor:pointer}
+.chat{width:32px;height:32px;border-radius:50%;border:1.4px solid var(--orange);background:#fff;display:grid;place-items:center;cursor:pointer}
+.btn-trainings{height:32px;padding:0 15px;border:0;border-radius:6px;background:var(--orange);color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+.who{display:flex;align-items:center;gap:8px;padding-left:12px;margin-left:2px;border-left:1px solid var(--divider)}
+.who .r{font-size:11px;color:var(--muted);line-height:1.1;text-align:right}
+.who .n{font-size:13.5px;font-weight:700;line-height:1.2;text-align:right}
+.ava{width:30px;height:30px;border-radius:50%;background:var(--tint);color:var(--orange);display:grid;place-items:center;font-size:12px;font-weight:700}
+ 
+/* shell */
+.shell{display:flex;height:calc(100vh - 56px);position:relative}
+.side{width:252px;flex:0 0 252px;background:#fff;padding:12px 10px;overflow-y:auto}
+.nav{display:flex;align-items:center;gap:11px;height:42px;padding:0 12px;border-radius:7px;border:0;background:transparent;
+  width:100%;text-align:left;font-size:14px;color:#33404F;cursor:pointer;margin-bottom:2px}
+.nav svg{flex:0 0 auto;stroke:#6B7280}
+.nav:hover{background:#F7F9FB}
+.nav.on{background:var(--tint2);color:var(--orange);font-weight:600;position:relative}
+.nav.on::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:0 3px 3px 0;background:var(--orange)}
+.nav.on svg{stroke:var(--orange)}
+.nav .cv{margin-left:auto}
+ 
+/* main */
+.main{flex:1;min-width:0;padding:14px 18px 0;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.modrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mod{display:flex;align-items:center;gap:9px;height:44px;padding:0 20px;border:0;border-radius:8px 8px 0 0;
+  background:var(--tint2);color:#4A5361;font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
+.mod .b{width:24px;height:24px;border-radius:6px;display:grid;place-items:center}
+.mod.on{background:#fff;color:var(--orange);box-shadow:0 -1px 6px rgba(31,36,48,.07)}
+.btn-blue{height:38px;padding:0 16px;border:0;border-radius:6px;background:var(--blue);color:#fff;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn-blue.sm{height:34px;font-size:13px;display:inline-flex;align-items:center;gap:7px}
+ 
+.card{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(31,36,48,.06)}
+.fcard{padding:14px 16px}
+.toprow{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-bottom:12px}
+.srch{position:relative;width:290px}
+.srch svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);stroke:var(--blue)}
+input[type=search],input[type=text],select{width:100%;height:34px;border:1px solid var(--border);border-radius:6px;background:#fff;
+  font-family:inherit;font-size:13px;color:var(--ink);padding:0 11px}
+input[type=search]{padding-left:34px}
+::placeholder{color:#9AA2AD}
+select{appearance:none;padding-right:30px;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23556070' stroke-width='2.4' stroke-linecap='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat;background-position:right 10px center}
+select:disabled{background-color:#F6F8FA;color:#A7AEB8;cursor:not-allowed}
+.fgrid{display:grid;gap:12px;align-items:end}
+[hidden]{display:none!important}
+.f label{display:block;font-size:12px;color:#55606E;margin-bottom:5px}
+.acts{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.btn-o{height:34px;padding:0 22px;border:0;border-radius:6px;background:var(--orange);color:#fff;font-size:13.5px;font-weight:600;cursor:pointer}
+.btn-o.soft{background:#F7A97F}
+.btn-line{height:34px;padding:0 16px;border:1.4px solid var(--border);border-radius:6px;background:#fff;color:#55606E;font-size:13px;font-weight:600;cursor:pointer}
+ 
+/* tabs */
+.tabs{display:flex;gap:26px;padding:0 16px;border-bottom:1px solid var(--divider)}
+.tab{border:0;background:transparent;padding:12px 2px 10px;font-size:14px;font-weight:600;color:var(--muted);
+  cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:8px}
+.tab .c{background:#F1F3F6;color:var(--muted);border-radius:10px;padding:1px 8px;font-size:11.5px;font-weight:600}
+.tab.on{color:var(--orange);border-bottom-color:var(--orange)}
+.tab.on .c{background:var(--tint);color:var(--orange)}
+ 
+/* table */
+.tcard{flex:1;min-height:0;display:flex;flex-direction:column;margin-bottom:14px;overflow:hidden}
+.thead{background:var(--slate);color:#fff;display:grid;grid-template-columns:44px 46px 1fr 160px;align-items:center;
+  height:42px;padding:0 16px;font-size:12.5px;font-weight:600;border-radius:8px 8px 0 0}
+.thead .r{text-align:right}
+.tbody{overflow-y:auto;flex:1}
+.row{display:grid;grid-template-columns:44px 46px 1fr 160px;align-items:center;height:60px;padding:0 16px;border-bottom:1px solid var(--divider)}
+.row:hover{background:#FCFDFE}
+.row.sel{background:var(--tint2)}
+.cb{width:18px;height:18px;border:1.8px solid #BFC7D1;border-radius:3px;background:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
+.cb[aria-checked=true]{background:var(--orange);border-color:var(--orange)}
+.cb svg{opacity:0}
+.cb[aria-checked=true] svg{opacity:1}
+.thead .cb{border-color:#fff;background:transparent}
+.thead .cb[aria-checked=true]{background:#fff}
+.thead .cb[aria-checked=true] svg{stroke:var(--slate)}
+.sn{color:#55606E;font-size:13.5px}
+.cell{display:flex;align-items:center;gap:12px;min-width:0}
+.th{width:56px;height:32px;border-radius:4px;flex:0 0 auto;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:700;letter-spacing:.03em}
+.aws{background:linear-gradient(135deg,#3B4A63,#232F3E)}
+.az{background:linear-gradient(135deg,#3A8DDE,#1D5FA8)}
+.gcp{background:linear-gradient(135deg,#5FA97C,#33734F)}
+.sec{background:linear-gradient(135deg,#7A5AF8,#4B32B5)}
+.nm{font-size:14px;color:#1F2430;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rl{display:inline-block;margin-top:2px;font-size:11px;color:#8A5227;background:var(--tint2);border-radius:4px;padding:1px 7px}
+.new{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;letter-spacing:.04em;color:#0C6B4F;background:#DFF4EC;border-radius:4px;padding:1px 6px;vertical-align:1px}
+.mt{display:flex;align-items:center;justify-content:flex-end;gap:7px;font-size:13px;color:#55606E;white-space:nowrap}
+.mt svg{stroke:#55606E;flex:0 0 auto}
+.empty{padding:44px 16px;text-align:center;color:var(--muted);font-size:13.5px}
+.empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px;font-weight:600}
+ 
+/* view switch */
+.apx{display:inline-flex;align-items:center;gap:4px;background:var(--tint2);border:1px solid #F6D9C3;
+  border-radius:7px;padding:3px;margin-left:auto}
+.apx button{border:0;background:transparent;border-radius:5px;padding:6px 13px;font-size:12.5px;
+  font-weight:600;color:#8A5227;cursor:pointer;white-space:nowrap}
+.apx button[aria-pressed="true"]{background:#fff;color:var(--orange);box-shadow:0 1px 3px rgba(31,36,48,.14)}
+.modrow .apx + .btn-blue{margin-left:10px}
+ 
+/* ===== Add course page ===== */
+.page-scroll{flex:1;min-height:0;overflow-y:auto;padding-bottom:16px}
+.formcard{padding:0;overflow:visible}
+.formhead{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--divider)}
+.formhead h2{margin:0;font-size:16px;font-weight:700;color:var(--orange)}
+.formbody{padding:20px 18px;display:flex;flex-direction:column;gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.stack{display:flex;flex-direction:column;gap:18px}
+.sub{font-size:12px;color:#55606E;margin-bottom:5px}
+.req{color:var(--alert)}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:13.5px}
+.check input{width:16px;height:16px;accent-color:var(--orange)}
+.hr{height:1px;background:var(--divider)}
+ 
+.editor{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.etool{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:7px 11px;border-bottom:1px solid var(--divider);color:#55606E;font-size:12.5px}
+.etool .pill{border:1px solid var(--divider);border-radius:4px;padding:2px 7px}
+.earea{min-height:130px;padding:10px 12px;font-size:13px}
+ 
+/* multiselect */
+.ms{position:relative}
+.ms .control{width:100%;min-height:34px;padding:4px 30px 4px 9px;border:1px solid var(--border);border-radius:6px;background:#fff;
+  font-size:13px;text-align:left;cursor:pointer;display:flex;flex-wrap:wrap;gap:5px;align-items:center;position:relative;color:var(--ink)}
+.ms .control[aria-expanded="true"]{border-color:var(--orange)}
+.ms .caret{position:absolute;right:9px;top:9px}
+.ms .ph{color:#9AA2AD}
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:11px;padding:2px 7px;font-size:11.5px}
+.chip.role{background:var(--tint2);color:#8A5227;border:1px solid #F6D9C3}
+.chip.client{background:#F1F3F6;color:#44505F;border:1px solid var(--border)}
+.panel{position:absolute;left:0;width:100%;z-index:40;margin-top:5px;background:#fff;border:1px solid var(--border);
+  border-radius:6px;box-shadow:0 8px 22px rgba(31,36,48,.14);padding:8px;display:flex;flex-direction:column;gap:6px;max-height:250px;overflow:auto}
+.opt{display:flex;align-items:center;gap:9px;width:100%;padding:7px;border:0;background:transparent;font-family:inherit;
+  font-size:13px;color:var(--ink);text-align:left;cursor:pointer;border-radius:4px}
+.opt:hover{background:#F7F9FB}
+.opt[aria-selected="true"]{background:var(--tint2)}
+.box{width:17px;height:17px;border-radius:3px;border:1.6px solid #BFC7D1;background:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.opt[aria-selected="true"] .box{border-color:var(--orange);background:var(--orange)}
+.box svg{display:none}
+.opt[aria-selected="true"] .box svg{display:block}
+.hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+.err{font-size:11.5px;color:var(--alert);margin-top:5px}
+ 
+.sections{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.section-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border:1px solid var(--divider);border-radius:6px}
+.section-item .tag{font-size:10px;font-weight:700;letter-spacing:.04em;padding:2px 6px;border-radius:9px;background:var(--tint2);color:#8A5227}
+.section-item .name{flex-grow:1;font-size:13px}
+.section-item .drop{border:0;background:transparent;cursor:pointer;color:var(--muted);font-size:15px;line-height:1;padding:3px}
+.none{font-size:12.5px;color:#9AA2AD;padding:2px}
+ 
+.confirm{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border:1px solid #BBE7D6;border-left:4px solid var(--ok);
+  border-radius:6px;background:#EEF9F5;color:#0C5742;margin-bottom:4px}
+.confirm h3{margin:0 0 3px;font-size:13.5px;font-weight:700}
+.confirm ul{margin:3px 0 0;padding-left:17px;font-size:12.5px;line-height:1.6}
+.confirm .x{margin-left:auto;border:0;background:transparent;cursor:pointer;font-size:17px;line-height:1;color:inherit}
+.toast{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;align-items:center;gap:9px;padding:12px 15px;border-radius:8px;
+  background:#10322A;color:#fff;font-size:13px;box-shadow:0 8px 24px rgba(16,50,42,.3)}
+ 
+@media (max-width:1150px){.g3,.g2,.g4,.cols2{grid-template-columns:minmax(0,1fr)}}
+</style></head><body>
+ 
+<header class="topbar">
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 40 30" fill="none"><path d="M2 5l7 20 7-13 7 13 7-20" stroke="#F26522" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="logo-txt">WHIZLABS<em>Business</em></div>
+  </div>
+  <button class="btn-ghost"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.2a2.8 2.8 0 1 1 3.9 2.6c-.7.3-1.2.9-1.2 1.7v.4"/><circle cx="12" cy="17.2" r=".7" fill="#F26522" stroke="none"/></svg> Contact Us</button>
+  <button class="chat" aria-label="Chat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg></button>
+  <button class="btn-trainings">My Trainings</button>
+  <div class="who"><div><div class="r">Admin</div><div class="n">Shyam</div></div><div class="ava">S</div></div>
+</header>
+ 
+<div class="shell">
+  <nav class="side" aria-label="Main">
+    <button class="nav"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg>Dashboard</button>
+    <button class="nav"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>Executive Dashboard</button>
+    <button class="nav"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="13" rx="2"/><path d="M2.5 9h19"/></svg>Virtual Machines</button>
+    <button class="nav"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 1 1 16 0"/><rect x="2.5" y="12.5" width="4" height="6" rx="1.6"/><rect x="17.5" y="12.5" width="4" height="6" rx="1.6"/></svg>Client Feedback</button>
+    <button class="nav on"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>Enrollments</button>
+    <button class="nav"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 8v8M14 10.5c0-1-1-1.5-2-1.5s-2 .5-2 1.5 4 1 4 3c0 1-1 1.5-2 1.5s-2-.5-2-1.5"/></svg>License(s)</button>
+    <button class="nav"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17"/></svg>Custom Environment<svg class="cv" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V12l6 4"/></svg>Analytics<svg class="cv" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+  </nav>
+ 
+  <main class="main">
+    <div class="modrow">
+      <button class="mod"><span class="b" style="background:#FDEAD9"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E07B21" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5 12 12l9-4.5z"/><path d="m3 12 9 4.5L21 12"/><path d="m3 16.5 9 4.5 9-4.5"/></svg></span>Subscriptions</button>
+      <button class="mod on"><span class="b" style="background:#E2F4EC"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#17A47A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2.5 8.5 12 13l9.5-4.5z"/><path d="M6.5 11v4.5c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5V11"/></svg></span>Courses</button>
+      <button class="mod"><span class="b" style="background:#E4ECFD"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2D7FF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><path d="M3 10h18"/></svg></span>Sandboxes</button>
+      <button class="mod"><span class="b" style="background:#EDE7FD"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A5AF8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5 7 12H5z"/></svg></span>Learning Paths</button>
+ 
+      <div class="apx" role="group" aria-label="Page">
+        <button id="viewList" aria-pressed="true">Course list</button>
+        <button id="viewAdd" aria-pressed="false">Add course</button>
+      </div>
+      <button class="btn-blue" style="margin-left:10px">Add New User(s)</button>
+    </div>
+ 
+    <!-- ===================== LIST VIEW ===================== -->
+    <div id="listView" style="display:flex;flex-direction:column;gap:10px;flex:1;min-height:0">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:13px;color:#55606E">Course listing</div>
+        <div class="apx" role="group" aria-label="Course listing approach" style="margin-left:0">
+          <button id="apxSingle" aria-pressed="true">Single list</button>
+          <button id="apxTabs" aria-pressed="false">Role / Certification tabs</button>
+        </div>
+      </div>
+ 
+      <section class="card" id="tabsCard" style="padding:0" hidden>
+        <div class="tabs">
+          <button class="tab on" id="tabRole" data-k="role">Role-Based Courses <span class="c" id="cRole">0</span></button>
+          <button class="tab" id="tabCert" data-k="cert">Certification-Based Courses <span class="c" id="cCert">0</span></button>
+        </div>
+      </section>
+ 
+      <section class="card fcard">
+        <div class="toprow">
+          <div class="srch">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2D7FF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <label class="sr-only" for="q">Search course</label>
+            <input type="search" id="q" placeholder="Search course...">
+          </div>
+          <button class="btn-blue sm">Assign to teams/users</button>
+        </div>
+ 
+        <div id="setA" class="fgrid" style="grid-template-columns:repeat(5,1fr) auto">
+          <div class="f"><label for="aCat">Categories</label><select id="aCat"><option value="">All Categories</option><option>AWS</option><option>Azure</option><option>Google Cloud</option><option>Cybersecurity</option></select></div>
+          <div class="f"><label for="aRole">Job Role</label><select id="aRole"><option value="">All Roles</option></select></div>
+          <div class="f"><label for="aName">Course Name</label><input type="text" id="aName" placeholder="Enter course name"></div>
+          <div class="f"><label for="aCont">Content</label><select id="aCont"><option value="">ALL</option><option value="video">Online Course</option><option value="test">Practice Test</option><option value="lab">Labs</option><option value="sandbox">Sandbox</option></select></div>
+          <div class="f"><label for="aSort">Sort by</label><select id="aSort"><option value="">ALL</option><option value="role">Job role</option><option value="cert">Certification course</option><option value="name">Course name</option></select></div>
+          <div class="acts" style="margin:0"><button class="btn-o" data-clear="A">Clear</button></div>
+        </div>
+ 
+        <div id="setRole" class="fgrid" style="grid-template-columns:repeat(4,1fr) auto" hidden>
+          <div class="f"><label for="rCat">Categories</label><select id="rCat"><option value="">All Categories</option><option>AWS</option><option>Azure</option><option>Google Cloud</option><option>Cybersecurity</option></select></div>
+          <div class="f"><label for="rRole">Job Role</label><select id="rRole"><option value="">All Roles</option></select></div>
+          <div class="f"><label for="rName">Course Name</label><input type="text" id="rName" placeholder="Enter course name"></div>
+          <div class="f"><label for="rCont">Content</label><select id="rCont"><option value="">ALL</option><option value="video">Online Course</option><option value="test">Practice Test</option><option value="lab">Labs</option><option value="sandbox">Sandbox</option></select></div>
+          <div class="acts" style="margin:0"><button class="btn-o" data-clear="R">Clear</button></div>
+        </div>
+ 
+        <div id="setCert" class="fgrid" style="grid-template-columns:repeat(4,1fr) auto" hidden>
+          <div class="f"><label for="kCat">Categories</label><select id="kCat"><option value="">All Categories</option><option>AWS</option><option>Azure</option><option>Google Cloud</option><option>Cybersecurity</option></select></div>
+          <div class="f"><label for="kCert">Certification</label><select id="kCert"><option value="">All Certifications</option></select></div>
+          <div class="f"><label for="kName">Course Name</label><input type="text" id="kName" placeholder="Enter course name"></div>
+          <div class="f"><label for="kCont">Content</label><select id="kCont"><option value="">ALL</option><option value="video">Online Course</option><option value="test">Practice Test</option><option value="lab">Labs</option><option value="sandbox">Sandbox</option></select></div>
+          <div class="acts" style="margin:0"><button class="btn-o" data-clear="K">Clear Filters</button></div>
+        </div>
+      </section>
+ 
+      <section class="card tcard">
+        <div class="thead">
+          <button class="cb" id="all" role="checkbox" aria-checked="false" aria-label="Select all"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg></button>
+          <div>S.No</div><div>Course Name</div><div class="r">Content Type</div>
+        </div>
+        <div class="tbody" id="rows"></div>
+      </section>
+    </div>
+ 
+    <!-- ===================== ADD COURSE VIEW ===================== -->
+    <div id="addView" class="page-scroll" hidden>
+      <section class="card formcard">
+        <div class="formhead">
+          <h2>Add Course</h2>
+          <button class="btn-line" style="margin-left:auto" id="backToList">← Back to course list</button>
+        </div>
+ 
+        <div class="formbody">
+          <div class="confirm" id="confirm" role="status" aria-live="polite" hidden>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#17A47A" stroke-width="2" style="flex:0 0 auto;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+            <div><h3 id="confirmTitle">Course published</h3><ul id="confirmBody"></ul></div>
+            <button class="x" id="confirmClose" aria-label="Dismiss">×</button>
+          </div>
+ 
+          <!-- taxonomy -->
+          <div class="g4">
+            <div class="f"><label for="fCat">Categories <span class="req">*</span></label>
+              <select id="fCat"><option value="">Select category</option><option>AWS</option><option>Azure</option><option>Google Cloud</option><option>Cybersecurity</option></select></div>
+            <div class="f"><label for="fSkills">Skills</label>
+              <select id="fSkills"><option value="">Select skill</option><option>Kubernetes</option><option>Terraform</option><option>Python</option><option>Threat Detection</option></select></div>
+            <div class="f"><label id="lblRole">Job Role</label>
+              <div class="ms" id="msRole">
+                <button type="button" class="control" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="lblRole" data-toggle>
+                  <span class="chips"></span>
+                  <svg class="caret" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#556070" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="panel" hidden>
+                  <label class="sr-only" for="roleSearch">Search job role</label>
+                  <input type="text" id="roleSearch" placeholder="Search job role" data-search>
+                  <div class="options" role="listbox" aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <div class="hint">Tags the course for the Role-Based tab.</div>
+            </div>
+            <div class="f"><label for="fCert">Certification</label>
+              <select id="fCert"><option value="">None (role-based course)</option><option>AZ-104</option><option>AI-102</option><option>CLF-C02</option><option>SAA-C03</option></select>
+              <div class="hint">Set this to list the course under Certification-Based.</div>
+            </div>
+          </div>
+ 
+          <div class="g2">
+            <div class="f"><label for="fName">Course Name <span class="req">*</span></label><input type="text" id="fName" placeholder="e.g. AI Engineer Job Role Program"></div>
+            <div class="f"><label for="fSlug">Slug (URL) <span class="req">*</span></label><input type="text" id="fSlug" placeholder="ai-engineer-job-role-program"></div>
+          </div>
+ 
+          <div class="f"><label for="fSummary">Course Summary</label>
+            <div class="editor">
+              <div class="etool">
+                <span>P ⌄</span><span>☰ ⌄</span><span class="pill" style="color:#2b2fa0">Tahoma ⌄</span><span class="pill">14 ⌄</span>
+                <span>A ⌄</span><span>Normal ⌄</span><span style="font-weight:700">B</span>
+                <span style="font-style:italic;font-family:Georgia,serif">I</span><span style="text-decoration:underline">U</span>
+                <span>X²</span><span>X₂</span><span class="pill" style="background:#F1F3F6">Code</span><span>≡</span><span>&lt;/&gt;</span>
+              </div>
+              <div class="earea" id="fSummary" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Course summary"></div>
+            </div>
+          </div>
+ 
+          <div class="hr"></div>
+ 
+          <div class="cols2">
+            <div class="stack">
+              <div class="f"><label for="fSku">Course SKU</label><input type="text" id="fSku" placeholder="Course SKU"></div>
+ 
+              <div class="f"><label for="fImg">Course Image</label>
+                <div style="display:flex;gap:10px;align-items:center"><input type="file" id="fImg" style="font-size:12.5px;color:#55606E"><button class="btn-blue sm">UPLOAD</button></div>
+              </div>
+ 
+              <div style="display:flex;gap:20px;flex-wrap:wrap">
+                <label class="check"><input type="checkbox">Enable Lab In Report</label>
+                <label class="check"><input type="checkbox">Enable Lab In Video</label>
+                <label class="check"><input type="checkbox">Enable Custom Test</label>
+              </div>
+              <label class="check"><input type="checkbox">Auto Approval For Course Moderation</label>
+ 
+              <div class="f" style="max-width:320px"><label for="fRev">Select Reviewer</label>
+                <select id="fRev"><option value="">Select Reviewer</option><option>Ananya Rao</option><option>Vikram Shah</option></select></div>
+ 
+              <div class="f">
+                <label for="fSec">Add New Section</label>
+                <div style="display:flex;gap:9px;align-items:center">
+                  <select id="fSec" style="max-width:340px"></select>
+                  <button class="btn-o" id="addSection" style="height:34px;padding:0 18px">+ ADD</button>
+                </div>
+                <div class="err" id="secErr" hidden></div>
+                <div class="sections" id="sectionList"></div>
+              </div>
+            </div>
+ 
+            <div class="stack">
+              <div class="f"><label>Course Type <span class="req">*</span></label>
+                <div style="display:flex;gap:18px;flex-wrap:wrap" id="courseTypes">
+                  <label class="check"><input type="checkbox" data-type="PT">Practice Test(PT)</label>
+                  <label class="check"><input type="checkbox" data-type="OC">Online Course(OC)</label>
+                  <label class="check"><input type="checkbox" data-type="LAB">Lab</label>
+                  <label class="check"><input type="checkbox" data-type="SANDBOX">Sandbox</label>
+                </div>
+                <div class="hint">Drives the section list and the Content Type shown in Enrollment → Courses.</div>
+              </div>
+ 
+              <div class="f"><label>Course Contain Certificate?</label>
+                <div style="display:flex;gap:20px">
+                  <label class="check"><input type="radio" name="cert" value="yes">Yes</label>
+                  <label class="check"><input type="radio" name="cert" value="no" checked>No</label>
+                </div>
+              </div>
+ 
+              <div class="g2">
+                <div class="f"><label for="fLevel">Course Level</label>
+                  <select id="fLevel"><option value="">Course Level</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+                <div class="f"><label>LAB Credit Points</label>
+                  <div style="display:flex;gap:8px">
+                    <div><label class="sr-only" for="fPt">PT points</label><input type="text" id="fPt" value="0" title="PT"></div>
+                    <div><label class="sr-only" for="fOc">OC points</label><input type="text" id="fOc" value="0" title="OC"></div>
+                    <div><label class="sr-only" for="fLab">LAB points</label><input type="text" id="fLab" value="0" title="LAB"></div>
+                  </div>
+                </div>
+              </div>
+ 
+              <div class="f"><label for="fStatus">Status <span class="req">*</span></label>
+                <select id="fStatus" style="max-width:340px">
+                  <option value="">Select status</option>
+                  <option value="deactivate">Deactivate</option>
+                  <option value="publish">Publish</option>
+                  <option value="unpublish">Unpublish</option>
+                  <option value="business">For Business</option>
+                </select>
+              </div>
+ 
+              <div class="f" id="clientField" hidden><label id="lblClient">Client <span class="req">*</span></label>
+                <div class="ms" id="msClient">
+                  <button type="button" class="control" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="lblClient" data-toggle>
+                    <span class="chips"></span>
+                    <svg class="caret" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#556070" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="panel" hidden>
+                    <label class="sr-only" for="clientSearch">Search client</label>
+                    <input type="text" id="clientSearch" placeholder="Search client" data-search>
+                    <label class="check" style="padding:0 4px"><input type="checkbox" data-all>Select all clients</label>
+                    <div class="options" role="listbox" aria-multiselectable="true"></div>
+                  </div>
+                </div>
+                <div class="hint">Visible only to the selected business clients.</div>
+              </div>
+ 
+              <div style="display:flex;gap:9px">
+                <button class="btn-blue" id="publish">✓ PUBLISH</button>
+                <button class="btn-line" id="cancel">← BACK</button>
+              </div>
+ 
+              <div style="font-size:12.5px;color:#55606E;line-height:1.7">
+                <b>Note:</b>
+                <div>1. Deactivate — not visible to any user.</div>
+                <div>2. Publish — visible to all users.</div>
+                <div>3. Unpublish — invisible to all new users.</div>
+                <div>4. For Business — only the selected clients.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+ 
+<script>
+(function () {
+  /* ---------------- reference data ---------------- */
+  var ROLES = ['AI Engineer', 'AI Data Analyst', 'AWS Engineer', 'Cybersecurity Analyst', 'Cloud Architect', 'Data Engineer'];
+  var CLIENTS = ['Infosys Ltd.', 'TCS', 'Accenture', 'Capgemini', 'Deloitte', 'Wipro'];
+  var CERTS = ['AZ-104', 'AI-102', 'CLF-C02', 'SAA-C03'];
+  var CAT_THEME = { 'AWS': 'aws', 'Azure': 'az', 'Google Cloud': 'gcp', 'Cybersecurity': 'sec' };
+  var TYPE = {
+    PT:      { label: 'PT',      ct: 'test',    suffix: 'Practice Test', noun: 'Questions',  sections: ['Practice Test', 'Free Test', 'Section Test', 'Exam Simulator'] },
+    OC:      { label: 'OC',      ct: 'video',   suffix: 'Online Course', noun: 'Videos',     sections: ['Video Lecture', 'Reading Material', 'Quiz', 'Assignment'] },
+    LAB:     { label: 'LAB',     ct: 'lab',     suffix: 'Labs',          noun: 'Labs',       sections: ['Hands-on Lab', 'Guided Lab', 'Lab Challenge'] },
+    SANDBOX: { label: 'SANDBOX', ct: 'sandbox', suffix: 'Sandbox',       noun: 'Sandboxes',  sections: ['Sandbox Environment', 'Sandbox Walkthrough'] }
+  };
+ 
+  var SEED = [
+    {n:"AI Engineer Job Role Program_Online Course",t:"aws",tl:"AI ENG",r:"AI Engineer",m:"64 Videos",cat:"AWS",ct:"video",cert:"",kind:"role"},
+    {n:"AI Engineer Job Role Program_Practice Test",t:"aws",tl:"AI ENG",r:"AI Engineer",m:"320 Questions",cat:"AWS",ct:"test",cert:"",kind:"role"},
+    {n:"AI Engineer Job Role Program_Labs",t:"aws",tl:"AI ENG",r:"AI Engineer",m:"24 Labs",cat:"AWS",ct:"lab",cert:"",kind:"role"},
+    {n:"AI Engineer Job Role Program_Sandbox",t:"az",tl:"AI ENG",r:"AI Engineer",m:"1 Sandbox",cat:"Azure",ct:"sandbox",cert:"",kind:"role"},
+    {n:"AI Data Analyst Job Role Program_Online Course",t:"az",tl:"AI DATA",r:"AI Data Analyst",m:"58 Videos",cat:"Azure",ct:"video",cert:"",kind:"role"},
+    {n:"AI Data Analyst Job Role Program_Labs",t:"az",tl:"AI DATA",r:"AI Data Analyst",m:"19 Labs",cat:"Azure",ct:"lab",cert:"",kind:"role"},
+    {n:"AWS Engineer Job Role Program_Online Course",t:"aws",tl:"AWS ENG",r:"AWS Engineer",m:"92 Videos",cat:"AWS",ct:"video",cert:"",kind:"role"},
+    {n:"AWS Engineer Job Role Program_Labs",t:"aws",tl:"AWS ENG",r:"AWS Engineer",m:"31 Labs",cat:"AWS",ct:"lab",cert:"",kind:"role"},
+    {n:"Cybersecurity Analyst Job Role Program_Online Course",t:"sec",tl:"CYBER",r:"Cybersecurity Analyst",m:"74 Videos",cat:"Cybersecurity",ct:"video",cert:"",kind:"role"},
+    {n:"Cybersecurity Analyst Job Role Program_Practice Test",t:"sec",tl:"CYBER",r:"Cybersecurity Analyst",m:"410 Questions",cat:"Cybersecurity",ct:"test",cert:"",kind:"role"},
+    {n:"Cloud Architect Job Role Program_Online Course",t:"gcp",tl:"CLOUD",r:"Cloud Architect",m:"77 Videos",cat:"Google Cloud",ct:"video",cert:"",kind:"role"},
+    {n:"Cloud Architect Job Role Program_Sandbox",t:"gcp",tl:"CLOUD",r:"Cloud Architect",m:"1 Sandbox",cat:"Google Cloud",ct:"sandbox",cert:"",kind:"role"},
+    {n:"Data Engineer Job Role Program_Online Course",t:"gcp",tl:"DATA ENG",r:"Data Engineer",m:"69 Videos",cat:"Google Cloud",ct:"video",cert:"",kind:"role"},
+    {n:"Data Engineer Job Role Program_Practice Test",t:"aws",tl:"DATA ENG",r:"Data Engineer",m:"285 Questions",cat:"AWS",ct:"test",cert:"",kind:"role"},
+    {n:"Exam AZ-104: Microsoft Azure Administrator_Sandbox",t:"az",tl:"AZ-104",r:"",m:"1 Sandbox",cat:"Azure",ct:"sandbox",cert:"AZ-104",kind:"cert"},
+    {n:"Exam AZ-104: Microsoft Azure Administrator_Online Course",t:"az",tl:"AZ-104",r:"",m:"107 Videos",cat:"Azure",ct:"video",cert:"AZ-104",kind:"cert"},
+    {n:"Exam AZ-104: Microsoft Azure Administrator_Practice Test",t:"az",tl:"AZ-104",r:"",m:"475 Questions",cat:"Azure",ct:"test",cert:"AZ-104",kind:"cert"},
+    {n:"Exam AZ-104: Microsoft Azure Administrator_Labs",t:"az",tl:"AZ-104",r:"",m:"163 Labs",cat:"Azure",ct:"lab",cert:"AZ-104",kind:"cert"},
+    {n:"CLF-C02: AWS Certified Cloud Practitioner_Online Course",t:"aws",tl:"CLF-C02",r:"",m:"136 Videos",cat:"AWS",ct:"video",cert:"CLF-C02",kind:"cert"},
+    {n:"CLF-C02: AWS Certified Cloud Practitioner_Sandbox",t:"aws",tl:"CLF-C02",r:"",m:"1 Sandbox",cat:"AWS",ct:"sandbox",cert:"CLF-C02",kind:"cert"},
+    {n:"CLF-C02: AWS Certified Cloud Practitioner_Labs",t:"aws",tl:"CLF-C02",r:"",m:"38 Labs",cat:"AWS",ct:"lab",cert:"CLF-C02",kind:"cert"},
+    {n:"SAA-C03: AWS Certified Solutions Architect Associate_Online Course",t:"aws",tl:"SAA-C03",r:"",m:"154 Videos",cat:"AWS",ct:"video",cert:"SAA-C03",kind:"cert"},
+    {n:"SAA-C03: AWS Certified Solutions Architect Associate_Practice Test",t:"aws",tl:"SAA-C03",r:"",m:"650 Questions",cat:"AWS",ct:"test",cert:"SAA-C03",kind:"cert"},
+    {n:"AI-102: Designing and Implementing an Azure AI Solution_Online Course",t:"az",tl:"AI-102",r:"",m:"88 Videos",cat:"Azure",ct:"video",cert:"AI-102",kind:"cert"}
+  ];
+ 
+  var STORE_KEY = 'courses.created.v1';
+  var created = [];
+  try { created = JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch (e) { created = []; }
+  function persist() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(created)); } catch (e) {}
+  }
+  function allRows() { return SEED.concat(created); }
+ 
+  var $ = function (id) { return document.getElementById(id); };
+ 
+  /* ---------------- view switch ---------------- */
+  var listView = $('listView'), addView = $('addView');
+  var bList = $('viewList'), bAdd = $('viewAdd');
+ 
+  function show(which) {
+    var isList = which === 'list';
+    listView.hidden = !isList;
+    addView.hidden = isList;
+    listView.style.display = isList ? 'flex' : 'none';
+    bList.setAttribute('aria-pressed', isList);
+    bAdd.setAttribute('aria-pressed', !isList);
+    if (isList) render();
+  }
+  bList.addEventListener('click', function () { show('list'); });
+  bAdd.addEventListener('click', function () { show('add'); });
+  $('backToList').addEventListener('click', function () { show('list'); });
+  $('cancel').addEventListener('click', function () { show('list'); });
+ 
+  /* ---------------- list view ---------------- */
+  var kind = 'role';
+  var mode = 'single';
+  var sel = {};
+ 
+  function setMode(m) {
+    mode = m;
+    var single = m === 'single';
+    $('apxSingle').setAttribute('aria-pressed', single);
+    $('apxTabs').setAttribute('aria-pressed', !single);
+    $('tabsCard').hidden = single;
+    $('setA').hidden = !single;
+    $('setRole').hidden = single || kind !== 'role';
+    $('setCert').hidden = single || kind !== 'cert';
+    render();
+  }
+ 
+  function fillFilterOptions() {
+    var certSel = $('kCert');
+    var roles = {}, certs = {};
+    allRows().forEach(function (c) { if (c.r) roles[c.r] = 1; if (c.cert) certs[c.cert] = 1; });
+    ['rRole', 'aRole'].forEach(function (id) {
+      var el = $(id), keep = el.value;
+      el.innerHTML = '<option value="">All Roles</option>';
+      Object.keys(roles).sort().forEach(function (r) { el.appendChild(new Option(r, r)); });
+      el.value = keep;
+    });
+    var keepCert = certSel.value;
+    certSel.innerHTML = '<option value="">All Certifications</option>';
+    Object.keys(certs).sort().forEach(function (c) { certSel.appendChild(new Option(c, c)); });
+    certSel.value = keepCert;
+  }
+ 
+  function icon(ct) {
+    var s = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#55606E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">';
+    if (ct === 'video') return s + '<circle cx="12" cy="12" r="8.5"/><polygon points="10.5 9 15.5 12 10.5 15"/></svg>';
+    if (ct === 'test') return s + '<path d="M6 3h12v18H6z"/><path d="M9.5 8h5M9.5 12h5M9.5 16h3"/></svg>';
+    if (ct === 'lab') return s + '<path d="M9.5 3v5.5L5 17a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-4.5-8.5V3"/><path d="M8.5 3h7"/></svg>';
+    return s + '<rect x="3" y="5" width="18" height="14" rx="2.2"/><path d="M3 10h18"/></svg>';
+  }
+  var CHECK = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>';
+ 
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+ 
+  function filtered() {
+    var q = ($('q').value || '').toLowerCase();
+    if (mode === 'single') {
+      var acat = $('aCat').value, arole = $('aRole').value, anm = ($('aName').value || '').toLowerCase(), act = $('aCont').value, sort = $('aSort').value;
+      var all = allRows().filter(function (c) {
+        return (!acat || c.cat === acat) && (!arole || c.r === arole) && (!act || c.ct === act) &&
+               (!anm || c.n.toLowerCase().indexOf(anm) !== -1) &&
+               (!q || c.n.toLowerCase().indexOf(q) !== -1);
+      });
+      if (sort === 'role') all = all.slice().sort(function (a, b) { return (b.kind === 'role') - (a.kind === 'role') || (a.r || '').localeCompare(b.r || ''); });
+      if (sort === 'cert') all = all.slice().sort(function (a, b) { return (b.kind === 'cert') - (a.kind === 'cert') || (a.cert || '').localeCompare(b.cert || ''); });
+      if (sort === 'name') all = all.slice().sort(function (a, b) { return a.n.localeCompare(b.n); });
+      return all;
+    }
+    var rows = allRows().filter(function (c) { return c.kind === kind; });
+    if (kind === 'role') {
+      var cat = $('rCat').value, role = $('rRole').value, nm = ($('rName').value || '').toLowerCase(), ct = $('rCont').value;
+      rows = rows.filter(function (c) {
+        return (!cat || c.cat === cat) && (!role || c.r === role) && (!ct || c.ct === ct) &&
+               (!nm || c.n.toLowerCase().indexOf(nm) !== -1);
+      });
+    } else {
+      var kcat = $('kCat').value, cert = $('kCert').value, knm = ($('kName').value || '').toLowerCase(), kct = $('kCont').value;
+      rows = rows.filter(function (c) {
+        return (!kcat || c.cat === kcat) && (!cert || c.cert === cert) && (!kct || c.ct === kct) &&
+               (!knm || c.n.toLowerCase().indexOf(knm) !== -1);
+      });
+    }
+    if (q) rows = rows.filter(function (c) { return c.n.toLowerCase().indexOf(q) !== -1; });
+    return rows;
+  }
+ 
+  function render() {
+    fillFilterOptions();
+    var counts = { role: 0, cert: 0 };
+    allRows().forEach(function (c) { counts[c.kind]++; });
+    $('cRole').textContent = counts.role;
+    $('cCert').textContent = counts.cert;
+ 
+    var list = filtered();
+    var rows = $('rows');
+    if (!list.length) {
+      rows.innerHTML = '<div class="empty"><b>No courses match these filters</b>Change the job role or clear the filters to see everything available to this client.</div>';
+    } else {
+      rows.innerHTML = list.map(function (c, i) {
+        var on = !!sel[c.n];
+        return '<div class="row' + (on ? ' sel' : '') + '" data-n="' + esc(c.n) + '">' +
+          '<button class="cb" role="checkbox" aria-checked="' + on + '" aria-label="Select course">' + CHECK + '</button>' +
+          '<div class="sn">' + (i + 1) + '</div>' +
+          '<div class="cell"><div class="th ' + c.t + '">' + esc(c.tl) + '</div><div style="min-width:0">' +
+            '<div class="nm">' + esc(c.n) + (c.isNew ? '<span class="new">NEW</span>' : '') + '</div>' +
+            (c.r ? '<span class="rl">' + esc(c.r) + '</span>' : '') +
+            (c.cert ? '<span class="rl">' + esc(c.cert) + '</span>' : '') +
+          '</div></div>' +
+          '<div class="mt">' + icon(c.ct) + esc(c.m) + '</div></div>';
+      }).join('');
+    }
+    var allOn = list.length > 0 && list.every(function (c) { return sel[c.n]; });
+    $('all').setAttribute('aria-checked', allOn);
+    window._list = list;
+  }
+ 
+  $('rows').addEventListener('click', function (e) {
+    var row = e.target.closest('.row');
+    if (!row) return;
+    var n = row.getAttribute('data-n');
+    sel[n] = !sel[n];
+    render();
+  });
+  $('all').addEventListener('click', function () {
+    var on = $('all').getAttribute('aria-checked') === 'true';
+    (window._list || []).forEach(function (c) { sel[c.n] = !on; });
+    render();
+  });
+ 
+  function setKind(k) {
+    kind = k;
+    $('tabRole').classList.toggle('on', k === 'role');
+    $('tabCert').classList.toggle('on', k === 'cert');
+    $('setRole').hidden = mode === 'single' || k !== 'role';
+    $('setCert').hidden = mode === 'single' || k !== 'cert';
+    render();
+  }
+  $('tabRole').addEventListener('click', function () { setKind('role'); });
+  $('tabCert').addEventListener('click', function () { setKind('cert'); });
+  $('apxSingle').addEventListener('click', function () { setMode('single'); });
+  $('apxTabs').addEventListener('click', function () { setMode('tabs'); });
+ 
+  ['q', 'aCat', 'aRole', 'aName', 'aCont', 'aSort', 'rCat', 'rRole', 'rName', 'rCont', 'kCat', 'kCert', 'kName', 'kCont'].forEach(function (id) {
+    $(id).addEventListener('input', render);
+    $(id).addEventListener('change', render);
+  });
+  document.querySelectorAll('[data-clear]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var which = b.getAttribute('data-clear');
+      var ids = which === 'A' ? ['aCat', 'aRole', 'aName', 'aCont', 'aSort']
+              : which === 'R' ? ['rCat', 'rRole', 'rName', 'rCont']
+              : ['kCat', 'kCert', 'kName', 'kCont'];
+      ids.forEach(function (id) { $(id).value = ''; });
+      $('q').value = '';
+      render();
+    });
+  });
+ 
+  /* ---------------- multiselects ---------------- */
+  function MultiSelect(root, items, chipClass, placeholder) {
+    var control = root.querySelector('[data-toggle]');
+    var chips = root.querySelector('.chips');
+    var panel = root.querySelector('.panel');
+    var optionsEl = root.querySelector('.options');
+    var search = root.querySelector('[data-search]');
+    var allBox = root.querySelector('[data-all]');
+    var selected = [];
+ 
+    function drawChips() {
+      chips.innerHTML = '';
+      if (!selected.length) {
+        var ph = document.createElement('span');
+        ph.className = 'ph';
+        ph.textContent = placeholder;
+        chips.appendChild(ph);
+        return;
+      }
+      selected.forEach(function (name) {
+        var chip = document.createElement('span');
+        chip.className = 'chip ' + chipClass;
+        chip.appendChild(document.createTextNode(name));
+        var x = document.createElement('span');
+        x.setAttribute('aria-hidden', 'true');
+        x.textContent = '×';
+        chip.appendChild(x);
+        chips.appendChild(chip);
+      });
+    }
+    function drawOptions() {
+      var q = (search.value || '').toLowerCase();
+      optionsEl.innerHTML = '';
+      items.filter(function (n) { return n.toLowerCase().indexOf(q) !== -1; }).forEach(function (name) {
+        var on = selected.indexOf(name) !== -1;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'opt';
+        btn.setAttribute('role', 'option');
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        btn.innerHTML = '<span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg></span>';
+        btn.appendChild(document.createTextNode(name));
+        btn.addEventListener('click', function () {
+          selected = on ? selected.filter(function (x) { return x !== name; }) : selected.concat([name]);
+          draw();
+        });
+        optionsEl.appendChild(btn);
+      });
+    }
+    function draw() { drawChips(); drawOptions(); if (allBox) allBox.checked = selected.length === items.length; }
+ 
+    control.addEventListener('click', function () {
+      var open = control.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) { control.setAttribute('aria-expanded', 'true'); panel.hidden = false; search.focus(); }
+    });
+    search.addEventListener('input', drawOptions);
+    if (allBox) allBox.addEventListener('change', function () { selected = allBox.checked ? items.slice() : []; draw(); });
+ 
+    draw();
+    return {
+      close: function () { control.setAttribute('aria-expanded', 'false'); panel.hidden = true; },
+      clear: function () { selected = []; draw(); },
+      value: function () { return selected.slice(); }
+    };
+  }
+ 
+  var instances = [];
+  function closeAll() { instances.forEach(function (i) { i.close(); }); }
+  var roleMs = MultiSelect($('msRole'), ROLES, 'role', 'Select job role');
+  var clientMs = MultiSelect($('msClient'), CLIENTS, 'client', 'Select client(s)');
+  instances.push(roleMs, clientMs);
+  document.addEventListener('click', function (e) { if (!e.target.closest('.ms')) closeAll(); });
+ 
+  /* ---------------- status → client ---------------- */
+  var status = $('fStatus'), clientField = $('clientField');
+  status.addEventListener('change', function () {
+    var biz = status.value === 'business';
+    clientField.hidden = !biz;
+    if (!biz) { clientMs.close(); clientMs.clear(); }
+  });
+ 
+  /* ---------------- course type → sections ---------------- */
+  var typeBoxes = [].slice.call(document.querySelectorAll('#courseTypes input[type=checkbox]'));
+  var secSelect = $('fSec'), secErr = $('secErr'), secList = $('sectionList'), addBtn = $('addSection');
+  var sections = [];
+ 
+  function selectedTypes() {
+    return typeBoxes.filter(function (b) { return b.checked; }).map(function (b) { return b.getAttribute('data-type'); });
+  }
+  function refreshSectionOptions() {
+    var types = selectedTypes();
+    secSelect.innerHTML = '';
+    var none = !types.length;
+    secSelect.disabled = none;
+    addBtn.disabled = none;
+    addBtn.style.opacity = none ? '.5' : '';
+    addBtn.style.cursor = none ? 'not-allowed' : 'pointer';
+    if (none) { secSelect.appendChild(new Option('Select a course type first', '')); return; }
+    secSelect.appendChild(new Option('Add New Section', ''));
+    types.forEach(function (t) {
+      var g = document.createElement('optgroup');
+      g.label = TYPE[t].label;
+      TYPE[t].sections.forEach(function (s) { g.appendChild(new Option(s, t + '|' + s)); });
+      secSelect.appendChild(g);
+    });
+  }
+  function drawSections() {
+    secList.innerHTML = '';
+    if (!sections.length) {
+      var p = document.createElement('div');
+      p.className = 'none';
+      p.textContent = 'No sections added yet.';
+      secList.appendChild(p);
+      return;
+    }
+    sections.forEach(function (s, i) {
+      var row = document.createElement('div');
+      row.className = 'section-item';
+      var tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = TYPE[s.type].label;
+      var nm = document.createElement('span'); nm.className = 'name'; nm.textContent = s.name;
+      var del = document.createElement('button');
+      del.type = 'button'; del.className = 'drop'; del.textContent = '×';
+      del.setAttribute('aria-label', 'Remove ' + s.name);
+      del.addEventListener('click', function () { sections.splice(i, 1); drawSections(); });
+      row.appendChild(tag); row.appendChild(nm); row.appendChild(del);
+      secList.appendChild(row);
+    });
+  }
+  typeBoxes.forEach(function (b) {
+    b.addEventListener('change', function () {
+      refreshSectionOptions();
+      var types = selectedTypes();
+      sections = sections.filter(function (s) { return types.indexOf(s.type) !== -1; });
+      drawSections();
+    });
+  });
+  addBtn.addEventListener('click', function () {
+    secErr.hidden = true;
+    var v = secSelect.value;
+    if (!v) { secErr.textContent = 'Pick a section to add.'; secErr.hidden = false; return; }
+    var p = v.split('|');
+    if (sections.some(function (s) { return s.type === p[0] && s.name === p[1]; })) {
+      secErr.textContent = 'That section is already added.'; secErr.hidden = false; return;
+    }
+    sections.push({ type: p[0], name: p[1] });
+    secSelect.value = '';
+    drawSections();
+  });
+  refreshSectionOptions();
+  drawSections();
+ 
+  /* ---------------- publish ---------------- */
+  var confirmBox = $('confirm'), confirmTitle = $('confirmTitle'), confirmBody = $('confirmBody');
+  $('confirmClose').addEventListener('click', function () { confirmBox.hidden = true; });
+ 
+  function message(ok, title, lines) {
+    confirmTitle.textContent = title;
+    confirmBody.innerHTML = '';
+    lines.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; confirmBody.appendChild(li); });
+    confirmBox.style.background = ok ? '#EEF9F5' : '#FDF1F0';
+    confirmBox.style.borderColor = ok ? '#BBE7D6' : '#F4C4C1';
+    confirmBox.style.borderLeftColor = ok ? '#17A47A' : '#E5484D';
+    confirmBox.style.color = ok ? '#0C5742' : '#8C2B29';
+    confirmBox.querySelector('svg').setAttribute('stroke', ok ? '#17A47A' : '#E5484D');
+    confirmBox.hidden = false;
+    addView.scrollTop = 0;
+  }
+  function toast(text) {
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.setAttribute('role', 'status');
+    t.textContent = text;
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 4000);
+  }
+ 
+  function initials(name, cert) {
+    if (cert) return cert;
+    var w = name.replace(/job role program/i, '').trim().split(/\s+/).slice(0, 2);
+    return w.join(' ').toUpperCase().slice(0, 9);
+  }
+ 
+  function resetForm() {
+    ['fName', 'fSlug', 'fSku'].forEach(function (id) { $(id).value = ''; });
+    ['fCat', 'fSkills', 'fCert', 'fLevel', 'fRev', 'fStatus'].forEach(function (id) { $(id).value = ''; });
+    $('fSummary').textContent = '';
+    typeBoxes.forEach(function (b) { b.checked = false; });
+    sections = [];
+    roleMs.clear(); clientMs.clear();
+    clientField.hidden = true;
+    refreshSectionOptions(); drawSections();
+  }
+ 
+  $('publish').addEventListener('click', function () {
+    var name = $('fName').value.trim();
+    var slug = $('fSlug').value.trim();
+    var cat = $('fCat').value;
+    var cert = $('fCert').value;
+    var roles = roleMs.value();
+    var types = selectedTypes();
+    var problems = [];
+ 
+    if (!cat) problems.push('Pick a category.');
+    if (!name) problems.push('Course name is required.');
+    if (!slug) problems.push('Slug (URL) is required.');
+    if (!types.length) problems.push('Select at least one course type.');
+    if (!sections.length) problems.push('Add at least one section.');
+    if (!cert && !roles.length) problems.push('Tag a job role, or pick a certification.');
+    if (!status.value) problems.push('Select a status.');
+    if (status.value === 'business' && !clientMs.value().length) problems.push('Select at least one client for a For Business course.');
+ 
+    if (problems.length) { message(false, 'Course not published', problems); return; }
+ 
+    var isCert = !!cert;
+    var theme = CAT_THEME[cat] || 'aws';
+    var label = initials(name, cert);
+    var newRows = types.map(function (t) {
+      var def = TYPE[t];
+      var count = sections.filter(function (s) { return s.type === t; }).length;
+      return {
+        n: name + '_' + def.suffix,
+        t: theme,
+        tl: label,
+        r: isCert ? '' : (roles[0] || ''),
+        m: count + ' ' + (count === 1 ? def.noun.replace(/s$/, '') : def.noun),
+        cat: cat,
+        ct: def.ct,
+        cert: cert,
+        kind: isCert ? 'cert' : 'role',
+        isNew: true,
+        roles: roles,
+        status: status.value,
+        clients: status.value === 'business' ? clientMs.value() : [],
+        slug: slug,
+        level: $('fLevel').value,
+        sections: sections.slice(),
+        savedAt: new Date().toISOString()
+      };
+    });
+ 
+    created = created.concat(newRows);
+    persist();
+ 
+    var lines = [
+      name + ' saved as ' + newRows.length + ' listing' + (newRows.length === 1 ? '' : 's') + ': ' + types.map(function (t) { return TYPE[t].suffix; }).join(', ') + '.',
+      'Listed under ' + (isCert ? 'Certification-Based Courses (' + cert + ')' : 'Role-Based Courses (' + roles.join(', ') + ')') + '.'
+    ];
+    lines.push(status.value === 'business'
+      ? 'Visible only to: ' + clientMs.value().join(', ') + '.'
+      : 'Status: ' + status.options[status.selectedIndex].text + '.');
+    message(true, 'Course published', lines);
+    toast('Course published — opening Enrollment → Courses');
+ 
+    setKind(isCert ? 'cert' : 'role');
+    resetForm();
+    setTimeout(function () { show('list'); }, 900);
+  });
+ 
+  /* ---------------- boot ---------------- */
+  setKind('role');
+  setMode('single');
+  show('list');
+})();
+</script>
+</body></html>
+ 
+Claude finished the response
